@@ -1,8 +1,19 @@
+## 0.9.6
+ * STORM-996: netty-unit-tests/test-batch demonstrates out-of-order delivery
+ * STORM-1056: allow supervisor log filename to be configurable via ENV variable
+ * STORM-1051: Netty Client.java's flushMessages produces a NullPointerException
+ * STORM-763: nimbus reassigned worker A to another machine, but other worker's netty client can't connect to the new worker A
+ * STORM-935: Update Disruptor queue version to 2.10.4
+ * STORM-503: Short disruptor queue wait time leads to high CPU usage when idle
+ * STORM-728: Put emitted and transferred stats under correct columns
+ * STORM-643: KafkaUtils repeatedly fetches messages whose offset is out of range
+ * STORM-933: NullPointerException during KafkaSpout deactivation
+
 ## 0.9.5
  * STORM-790: Log "task is null" instead of let worker died when task is null in transfer-fn
  * STORM-796: Add support for "error" command in ShellSpout
  * STORM-745: fix storm.cmd to evaluate 'shift' correctly with 'storm jar'
-  * STORM-130: Supervisor getting killed due to java.io.FileNotFoundException: File '../stormconf.ser' does not exist.
+ * STORM-130: Supervisor getting killed due to java.io.FileNotFoundException: File '../stormconf.ser' does not exist.
 
 ## 0.9.4
  * STORM-559: ZkHosts in README should use 2181 as port.
