@@ -18,16 +18,16 @@
 
 package org.apache.storm.hive.bolt;
 
-import backtype.storm.Config;
-import backtype.storm.LocalCluster;
-import backtype.storm.StormSubmitter;
-import backtype.storm.spout.SpoutOutputCollector;
-import backtype.storm.task.TopologyContext;
-import backtype.storm.topology.OutputFieldsDeclarer;
-import backtype.storm.topology.TopologyBuilder;
-import backtype.storm.topology.base.BaseRichSpout;
-import backtype.storm.tuple.Fields;
-import backtype.storm.tuple.Values;
+import org.apache.storm.Config;
+import org.apache.storm.LocalCluster;
+import org.apache.storm.StormSubmitter;
+import org.apache.storm.spout.SpoutOutputCollector;
+import org.apache.storm.task.TopologyContext;
+import org.apache.storm.topology.OutputFieldsDeclarer;
+import org.apache.storm.topology.TopologyBuilder;
+import org.apache.storm.topology.base.BaseRichSpout;
+import org.apache.storm.tuple.Fields;
+import org.apache.storm.tuple.Values;
 
 import org.apache.storm.hive.bolt.mapper.DelimitedRecordHiveMapper;
 import org.apache.storm.hive.common.HiveOptions;
@@ -51,7 +51,8 @@ public class HiveTopology {
         config.setNumWorkers(1);
         UserDataSpout spout = new UserDataSpout();
         DelimitedRecordHiveMapper mapper = new DelimitedRecordHiveMapper()
-            .withColumnFields(new Fields(colNames));
+                .withTimeAsPartitionField("yyyy/MM/dd/hh")
+                .withColumnFields(new Fields(colNames));
         HiveOptions hiveOptions;
         if (args.length == 6) {
             hiveOptions = new HiveOptions(metaStoreURI,dbName,tblName,mapper)
@@ -64,7 +65,8 @@ public class HiveTopology {
             hiveOptions = new HiveOptions(metaStoreURI,dbName,tblName,mapper)
                 .withTxnsPerBatch(10)
                 .withBatchSize(100)
-                .withIdleTimeout(10);
+                .withIdleTimeout(10)
+                .withMaxOpenConnections(1);
         }
 
         HiveBolt hiveBolt = new HiveBolt(hiveOptions);
